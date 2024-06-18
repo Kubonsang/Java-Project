@@ -1,4 +1,4 @@
-package calendar;
+package View.calendar;
 
 import java.awt.*;
 import javax.swing.*;
@@ -73,23 +73,7 @@ public class calendarUI extends JFrame {
             setPreferredSize(new Dimension(630, 100));
             setBackground(Color.white);
 
-
-
-            RightButton = new JButton(">");
-            RightButton.setPreferredSize(new Dimension(60, 60) );
-            RightButton.addActionListener(new RightButtonListener());
-
-            LeftButton = new JButton("<");
-            LeftButton.setPreferredSize(new Dimension(60, 60) );
-            LeftButton.addActionListener(new LeftButtonListener());
-
-
-            add(LeftButton);
-
-            thisMonth = calendarInfo.get(Calendar.MONTH);
-            add(monthLabels[thisMonth], BorderLayout.CENTER);
-
-            add(RightButton);
+            draw();
         }
 
         public void renew(){
@@ -97,6 +81,10 @@ public class calendarUI extends JFrame {
             remove(LeftButton);
             remove(monthLabels[thisMonth]);
 
+            draw();
+        }
+
+        public void draw(){
             RightButton = new JButton(">");
             RightButton.setPreferredSize(new Dimension(60, 60) );
             RightButton.addActionListener(new RightButtonListener());
@@ -158,39 +146,18 @@ public class calendarUI extends JFrame {
             setBackground(Color.WHITE);
             setOpaque(true);
 
-            // 달력의 헤더.
-            weekLabel[0].setForeground(Color.red);
-
-
-            header.setLayout(new GridLayout(1, 7, 10, 10));
-            header.setPreferredSize(new Dimension(630, 20));
-            header.setBackground(Color.white);
-            for(int i = 0; i < 7; i++){
-                header.add(weekPanel[i]);
-            }
-            add(header, BorderLayout.NORTH);
-
-
-            center.setLayout(new GridLayout(0, 7, 10, 10));
-            center.setPreferredSize(new Dimension(630, 450));
-
-            calendarInfo.set(calendarInfo.DAY_OF_MONTH, 1);
-            int whatDayOfWeek = calendarInfo.get(Calendar.DAY_OF_WEEK);
-
-            for(int i = 1; i < whatDayOfWeek; i++){
-                center.add(new DatePanel(0));
-            }
-
-            for(int i = 1; i <= calendarInfo.getActualMaximum(calendarInfo.DAY_OF_MONTH); i++){
-                center.add(new DatePanel(i));
-            }
-            add(center, BorderLayout.CENTER);
+            draw();
         }
 
         public void renew(){
             remove(center);
             remove(header);
 
+            draw();
+
+        }
+
+        public void draw(){
             header = new JPanel();
             header.setLayout(new GridLayout(1, 7, 10, 10));
             header.setPreferredSize(new Dimension(630, 20));
@@ -218,7 +185,6 @@ public class calendarUI extends JFrame {
 
             revalidate();
             repaint();
-
         }
     }
     class WeekPanel extends JPanel{
